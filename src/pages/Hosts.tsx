@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { Server, Clock, FileText } from 'lucide-react'
+import { Server, Clock, FileText, Bug } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { api } from '../api/client'
 import { Table, Badge } from '../components/Table'
@@ -72,6 +72,40 @@ export default function Hosts() {
                 </span>
               </div>
             ),
+          },
+          {
+            key: 'vulnerabilities',
+            header: 'Vulnerabilities',
+            render: (host: HostSummary) => {
+              const vuln = host.latest_vulnerability_summary
+              if (!vuln || vuln.total_vulnerabilities === 0) {
+                return <span className={styles.noVuln}>—</span>
+              }
+              return (
+                <div className={styles.vulnSummary}>
+                  {(vuln.critical ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.critical}`}>
+                      {vuln.critical} C
+                    </span>
+                  )}
+                  {(vuln.high ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.high}`}>
+                      {vuln.high} H
+                    </span>
+                  )}
+                  {(vuln.medium ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.medium}`}>
+                      {vuln.medium} M
+                    </span>
+                  )}
+                  {(vuln.low ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.low}`}>
+                      {vuln.low} L
+                    </span>
+                  )}
+                </div>
+              )
+            },
           },
           {
             key: 'status',

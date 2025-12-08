@@ -214,3 +214,260 @@
   color: var(--color-text-muted);
 }
 
+/* Vulnerabilities Section */
+.vulnSection {
+  margin-top: var(--space-lg);
+}
+
+.vulnHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.vulnHeader h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.trivyVersion {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-hover);
+  padding: 0.25em 0.5em;
+  border-radius: var(--radius-sm);
+}
+
+.vulnNotAvailable,
+.vulnError {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.vulnNotAvailable code {
+  font-family: var(--font-mono);
+  background: var(--color-bg-hover);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+}
+
+.vulnError {
+  flex-direction: row;
+  color: var(--color-error);
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: var(--radius-md);
+}
+
+.vulnSummary {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.vulnStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-bg-hover);
+  border-radius: var(--radius-md);
+  min-width: 80px;
+}
+
+.vulnStat.critical {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.vulnStat.critical .vulnStatValue {
+  color: #ef4444;
+}
+
+.vulnStat.high {
+  background: rgba(249, 115, 22, 0.15);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.vulnStat.high .vulnStatValue {
+  color: #f97316;
+}
+
+.vulnStat.medium {
+  background: rgba(234, 179, 8, 0.15);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.vulnStat.medium .vulnStatValue {
+  color: #eab308;
+}
+
+.vulnStat.low {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.vulnStat.low .vulnStatValue {
+  color: #3b82f6;
+}
+
+.vulnStatValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.vulnStatLabel {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.vulnFilter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.vulnSelect {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.vulnSelect:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.vulnList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.noVulns {
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--color-success);
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: var(--radius-md);
+}
+
+.vulnItem {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.vulnItemHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.vulnItemHeader:hover {
+  background: var(--color-bg-hover);
+}
+
+.cveId {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.vulnPackage {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  flex: 1;
+}
+
+.cvssScore {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-hover);
+  padding: 0.125em 0.5em;
+  border-radius: var(--radius-sm);
+}
+
+.vulnDetails {
+  padding: var(--space-md);
+  background: var(--color-bg-deep);
+  border-top: 1px solid var(--color-border);
+}
+
+.vulnDetailGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.vulnTitle,
+.vulnDescription {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
+  line-height: 1.5;
+}
+
+.vulnTitle strong,
+.vulnDescription strong {
+  color: var(--color-text-primary);
+}
+
+.vulnLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  margin-top: var(--space-sm);
+}
+
+.vulnLink:hover {
+  color: var(--color-accent-hover);
+}
+
+.vulnMore {
+  padding: var(--space-md);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-hover);
+  border-radius: var(--radius-md);
+}
+

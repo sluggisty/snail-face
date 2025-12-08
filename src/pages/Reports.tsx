@@ -70,11 +70,38 @@ export default function Reports() {
             ),
           },
           {
-            key: 'collection_id',
-            header: 'ID',
-            render: (r: ReportSummary) => (
-              <code className={styles.code}>{r.id.slice(0, 8)}</code>
-            ),
+            key: 'vulnerabilities',
+            header: 'CVEs',
+            render: (r: ReportSummary) => {
+              const vuln = r.vulnerability_summary
+              if (!vuln || vuln.total_vulnerabilities === 0) {
+                return <span className={styles.noVuln}>—</span>
+              }
+              return (
+                <div className={styles.vulnSummary}>
+                  {(vuln.critical ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.critical}`}>
+                      {vuln.critical}
+                    </span>
+                  )}
+                  {(vuln.high ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.high}`}>
+                      {vuln.high}
+                    </span>
+                  )}
+                  {(vuln.medium ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.medium}`}>
+                      {vuln.medium}
+                    </span>
+                  )}
+                  {(vuln.low ?? 0) > 0 && (
+                    <span className={`${styles.vulnBadge} ${styles.low}`}>
+                      {vuln.low}
+                    </span>
+                  )}
+                </div>
+              )
+            },
           },
           {
             key: 'status',

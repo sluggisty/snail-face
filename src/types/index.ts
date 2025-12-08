@@ -13,6 +13,15 @@ export interface Report {
   errors?: string[]
 }
 
+export interface VulnerabilitySummary {
+  total_vulnerabilities?: number
+  critical?: number
+  high?: number
+  medium?: number
+  low?: number
+  unknown?: number
+}
+
 export interface ReportSummary {
   id: string
   hostname: string
@@ -20,6 +29,7 @@ export interface ReportSummary {
   timestamp: string
   received_at: string
   has_errors: boolean
+  vulnerability_summary?: VulnerabilitySummary
 }
 
 export interface HostSummary {
@@ -28,6 +38,7 @@ export interface HostSummary {
   first_seen: string
   last_seen: string
   latest_report_id: string
+  latest_vulnerability_summary?: VulnerabilitySummary
 }
 
 export interface ReportData {
@@ -39,6 +50,7 @@ export interface ReportData {
   filesystem?: FilesystemData
   security?: SecurityData
   logs?: LogsData
+  vulnerabilities?: VulnerabilitiesData
 }
 
 export interface SystemData {
@@ -161,6 +173,52 @@ export interface LogsData {
     unit?: string
     message?: string
   }>
+}
+
+export interface VulnerabilitiesData {
+  scanner?: string
+  trivy_available?: boolean
+  trivy_version?: string
+  scan_completed?: boolean
+  error?: string
+  summary?: {
+    total_vulnerabilities?: number
+    critical?: number
+    high?: number
+    medium?: number
+    low?: number
+    unknown?: number
+  }
+  total_unique_cves?: number
+  vulnerabilities?: Vulnerability[]
+  targets?: Array<{
+    name?: string
+    type?: string
+    class?: string
+  }>
+}
+
+export interface Vulnerability {
+  cve_id: string
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN'
+  package_name?: string
+  installed_version?: string
+  fixed_version?: string
+  title?: string
+  description?: string
+  target?: string
+  target_type?: string
+  primary_url?: string
+  references?: string[]
+  cvss?: {
+    v3_score?: number
+    v3_vector?: string
+    v2_score?: number
+    v2_vector?: string
+    source?: string
+  }
+  published_date?: string
+  last_modified?: string
 }
 
 export interface ApiResponse<T> {
