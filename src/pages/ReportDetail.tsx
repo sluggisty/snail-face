@@ -592,10 +592,7 @@ function ComplianceSection({ compliance }: { compliance: ComplianceData }) {
             <div key={rule.id || `rule-${index}`} className={styles.ruleItem}>
               <div 
                 className={styles.ruleItemHeader}
-                onClick={() => {
-                  console.log('Clicked rule:', rule.id, 'Current expanded:', expandedRule)
-                  setExpandedRule(expandedRule === rule.id ? null : rule.id)
-                }}
+                onClick={() => setExpandedRule(expandedRule === rule.id ? null : rule.id)}
               >
                 {expandedRule === rule.id ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                 {getStatusIcon(rule.status)}
@@ -606,37 +603,16 @@ function ComplianceSection({ compliance }: { compliance: ComplianceData }) {
               </div>
               
               {expandedRule === rule.id && (
-                <div 
-                  className={styles.ruleDetails} 
-                  style={{ 
-                    minHeight: '80px', 
-                    padding: '16px',
-                    backgroundColor: '#1a1a2e',
-                    borderTop: '3px solid #22c55e'
-                  }}
-                >
-                  <div style={{ color: '#22c55e', fontWeight: 'bold', marginBottom: '8px' }}>
-                    ✓ EXPANDED - Rule Details
-                  </div>
+                <div className={styles.ruleDetails}>
                   <div className={styles.ruleId}>
-                    <strong style={{ color: '#a0a0a0' }}>Rule ID:</strong>
-                    <code style={{ 
-                      display: 'block', 
-                      marginTop: '4px',
-                      padding: '8px', 
-                      backgroundColor: '#0d0d1a', 
-                      color: '#e0e0e0',
-                      fontSize: '12px',
-                      wordBreak: 'break-all'
-                    }}>
-                      {rule.id}
-                    </code>
+                    <strong>Rule ID:</strong>
+                    <code>{rule.id}</code>
                   </div>
                   
                   {rule.messages && rule.messages.length > 0 && (
-                    <div className={styles.ruleMessages} style={{ marginTop: '12px' }}>
-                      <strong style={{ color: '#a0a0a0' }}>Details:</strong>
-                      <ul style={{ color: '#e0e0e0', marginTop: '4px' }}>
+                    <div className={styles.ruleMessages}>
+                      <strong>Details:</strong>
+                      <ul>
                         {rule.messages.map((msg, i) => (
                           <li key={i}>{msg}</li>
                         ))}

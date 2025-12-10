@@ -773,8 +773,6 @@
   padding: var(--space-sm) var(--space-md);
   cursor: pointer;
   transition: background 0.2s ease;
-  position: relative;
-  z-index: 1;
   user-select: none;
 }
 
@@ -811,20 +809,29 @@
 
 .ruleId {
   display: flex;
-  align-items: center;
-  gap: var(--space-sm);
+  flex-direction: column;
+  gap: var(--space-xs);
   margin-bottom: var(--space-md);
   font-size: 0.875rem;
   color: var(--color-text-secondary);
+}
+
+.ruleId strong {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .ruleId code {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   background: var(--color-bg-hover);
-  padding: 0.25em 0.5em;
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-sm);
   word-break: break-all;
+  color: var(--color-text-primary);
+  display: block;
 }
 
 .ruleMessages {
