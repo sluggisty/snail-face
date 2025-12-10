@@ -605,25 +605,29 @@ function ComplianceSection({ compliance }: { compliance: ComplianceData }) {
                 <span className={styles.ruleTitle}>{rule.title || rule.id}</span>
               </div>
               
-              {expandedRule === rule.id && (
-                <div className={styles.ruleDetails}>
-                  <div className={styles.ruleId}>
-                    <strong>Rule ID:</strong>
-                    <code>{rule.id}</code>
-                  </div>
-                  
-                  {rule.messages && rule.messages.length > 0 && (
-                    <div className={styles.ruleMessages}>
-                      <strong>Details:</strong>
-                      <ul>
-                        {rule.messages.map((msg, i) => (
-                          <li key={i}>{msg}</li>
-                        ))}
-                      </ul>
+              {(() => {
+                const isExpanded = expandedRule === rule.id
+                if (isExpanded) console.log('Rendering expanded for:', rule.id)
+                return isExpanded ? (
+                  <div className={styles.ruleDetails} style={{ minHeight: '60px', border: '2px solid red' }}>
+                    <div className={styles.ruleId}>
+                      <strong>Rule ID:</strong>
+                      <code>{rule.id}</code>
                     </div>
-                  )}
-                </div>
-              )}
+                    
+                    {rule.messages && rule.messages.length > 0 && (
+                      <div className={styles.ruleMessages}>
+                        <strong>Details:</strong>
+                        <ul>
+                          {rule.messages.map((msg, i) => (
+                            <li key={i}>{msg}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ) : null
+              })()}
             </div>
           ))
         )}
