@@ -738,8 +738,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  max-height: 600px;
-  overflow-y: auto;
 }
 
 .noFailedRules {

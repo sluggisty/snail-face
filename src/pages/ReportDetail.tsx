@@ -605,29 +605,46 @@ function ComplianceSection({ compliance }: { compliance: ComplianceData }) {
                 <span className={styles.ruleTitle}>{rule.title || rule.id}</span>
               </div>
               
-              {(() => {
-                const isExpanded = expandedRule === rule.id
-                if (isExpanded) console.log('Rendering expanded for:', rule.id)
-                return isExpanded ? (
-                  <div className={styles.ruleDetails} style={{ minHeight: '60px', border: '2px solid red' }}>
-                    <div className={styles.ruleId}>
-                      <strong>Rule ID:</strong>
-                      <code>{rule.id}</code>
-                    </div>
-                    
-                    {rule.messages && rule.messages.length > 0 && (
-                      <div className={styles.ruleMessages}>
-                        <strong>Details:</strong>
-                        <ul>
-                          {rule.messages.map((msg, i) => (
-                            <li key={i}>{msg}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+              {expandedRule === rule.id && (
+                <div 
+                  className={styles.ruleDetails} 
+                  style={{ 
+                    minHeight: '80px', 
+                    padding: '16px',
+                    backgroundColor: '#1a1a2e',
+                    borderTop: '3px solid #22c55e'
+                  }}
+                >
+                  <div style={{ color: '#22c55e', fontWeight: 'bold', marginBottom: '8px' }}>
+                    ✓ EXPANDED - Rule Details
                   </div>
-                ) : null
-              })()}
+                  <div className={styles.ruleId}>
+                    <strong style={{ color: '#a0a0a0' }}>Rule ID:</strong>
+                    <code style={{ 
+                      display: 'block', 
+                      marginTop: '4px',
+                      padding: '8px', 
+                      backgroundColor: '#0d0d1a', 
+                      color: '#e0e0e0',
+                      fontSize: '12px',
+                      wordBreak: 'break-all'
+                    }}>
+                      {rule.id}
+                    </code>
+                  </div>
+                  
+                  {rule.messages && rule.messages.length > 0 && (
+                    <div className={styles.ruleMessages} style={{ marginTop: '12px' }}>
+                      <strong style={{ color: '#a0a0a0' }}>Details:</strong>
+                      <ul style={{ color: '#e0e0e0', marginTop: '4px' }}>
+                        {rule.messages.map((msg, i) => (
+                          <li key={i}>{msg}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))
         )}
