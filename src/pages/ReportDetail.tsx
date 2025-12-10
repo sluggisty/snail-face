@@ -588,11 +588,14 @@ function ComplianceSection({ compliance }: { compliance: ComplianceData }) {
             No rules match the current filter
           </div>
         ) : (
-          filteredRules.slice(0, 100).map((rule) => (
-            <div key={rule.id} className={styles.ruleItem}>
+          filteredRules.slice(0, 100).map((rule, index) => (
+            <div key={rule.id || `rule-${index}`} className={styles.ruleItem}>
               <div 
                 className={styles.ruleItemHeader}
-                onClick={() => setExpandedRule(expandedRule === rule.id ? null : rule.id)}
+                onClick={() => {
+                  console.log('Clicked rule:', rule.id, 'Current expanded:', expandedRule)
+                  setExpandedRule(expandedRule === rule.id ? null : rule.id)
+                }}
               >
                 {expandedRule === rule.id ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                 {getStatusIcon(rule.status)}
