@@ -4,13 +4,14 @@ import { useQuery } from '@tanstack/react-query'
 import { 
   ArrowLeft, Server, Cpu, Network, Package, 
   Settings, Shield, FileText, Clock, AlertTriangle,
-  Bug, ExternalLink, ChevronDown, ChevronRight
+  Bug, ExternalLink, ChevronDown, ChevronRight,
+  ClipboardCheck, CheckCircle, XCircle, AlertCircle
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { api } from '../api/client'
 import { Card } from '../components/Card'
 import { Badge } from '../components/Table'
-import type { Vulnerability, VulnerabilitiesData } from '../types'
+import type { VulnerabilitiesData, ComplianceData } from '../types'
 import styles from './ReportDetail.module.css'
 
 export default function ReportDetail() {
@@ -38,6 +39,7 @@ export default function ReportDetail() {
   const packages = data?.packages
   const security = data?.security
   const vulnerabilities = data?.vulnerabilities
+  const compliance = data?.compliance
   
   return (
     <div className={styles.page}>
@@ -206,6 +208,11 @@ export default function ReportDetail() {
       {/* Vulnerabilities Section */}
       {vulnerabilities && (
         <VulnerabilitiesSection vulnerabilities={vulnerabilities} />
+      )}
+      
+      {/* Compliance Section */}
+      {compliance && (
+        <ComplianceSection compliance={compliance} />
       )}
       
       {/* Raw Data */}
@@ -397,6 +404,236 @@ function VulnerabilitiesSection({ vulnerabilities }: { vulnerabilities: Vulnerab
         {filteredVulns.length > 50 && (
           <div className={styles.vulnMore}>
             Showing 50 of {filteredVulns.length} vulnerabilities
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
+
+function ComplianceSection({ compliance }: { compliance: ComplianceData }) {
+  const [expandedRule, setExpandedRule] = useState<string | null>(null)
+  const [statusFilter, setStatusFilter] = useState<string>('all')
+  
+  const summary = compliance.summary
+  const rules = compliance.rules ?? []
+  
+  const filteredRules = statusFilter === 'all' 
+    ? rules 
+    : rules.filter(r => r.status === statusFilter)
+  
+  const getSeverityVariant = (severity?: string): 'error' | 'warning' | 'info' | 'default' => {
+    switch (severity?.toLowerCase()) {
+      case 'high': return 'error'
+      case 'medium': return 'warning'
+      case 'low': return 'info'
+      default: return 'default'
+    }
+  }
+  
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'fail': return <XCircle size={14} className={styles.statusIconFail} />
+      case 'error': return <AlertCircle size={14} className={styles.statusIconError} />
+      default: return <AlertTriangle size={14} className={styles.statusIconUnknown} />
+    }
+  }
+  
+  // Calculate compliance percentage
+  const complianceScore = summary?.score ?? 0
+  const totalRules = summary?.total_rules ?? 0
+  const passedRules = summary?.pass ?? 0
+  const failedRules = summary?.fail ?? 0
+  const errorRules = summary?.error ?? 0
+  
+  if (!compliance.oscap_available) {
+    return (
+      <Card className={styles.complianceSection}>
+        <h3><ClipboardCheck size={18} /> Compliance Scan</h3>
+        <div className={styles.complianceNotAvailable}>
+          <AlertTriangle size={24} />
+          <p>OpenSCAP is not installed on this system.</p>
+          <code>{compliance.error || 'Install openscap-scanner and scap-security-guide'}</code>
+        </div>
+      </Card>
+    )
+  }
+  
+  if (!compliance.scap_content_available) {
+    return (
+      <Card className={styles.complianceSection}>
+        <h3><ClipboardCheck size={18} /> Compliance Scan</h3>
+        <div className={styles.complianceNotAvailable}>
+          <AlertTriangle size={24} />
+          <p>SCAP security content not found.</p>
+          <code>{compliance.error || 'Install scap-security-guide package'}</code>
+          {compliance.available_profiles && compliance.available_profiles.length > 0 && (
+            <div className={styles.availableProfiles}>
+              <span>Available profiles once installed:</span>
+              <div className={styles.profileTags}>
+                {compliance.available_profiles.map(p => (
+                  <span key={p} className={styles.profileTag}>{p}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </Card>
+    )
+  }
+  
+  if (compliance.error && !compliance.scan_completed) {
+    return (
+      <Card className={styles.complianceSection}>
+        <h3><ClipboardCheck size={18} /> Compliance Scan</h3>
+        <div className={styles.complianceError}>
+          <AlertTriangle size={20} />
+          <span>{compliance.error}</span>
+        </div>
+      </Card>
+    )
+  }
+  
+  return (
+    <Card className={styles.complianceSection}>
+      <div className={styles.complianceHeader}>
+        <h3><ClipboardCheck size={18} /> Compliance Scan</h3>
+        <div className={styles.complianceHeaderMeta}>
+          {compliance.profile_info?.name && (
+            <span className={styles.profileBadge}>
+              Profile: {compliance.profile_info.name}
+            </span>
+          )}
+          {compliance.oscap_version && (
+            <span className={styles.oscapVersion}>{compliance.oscap_version}</span>
+          )}
+        </div>
+      </div>
+      
+      {/* Distro Info */}
+      {compliance.distro && (
+        <div className={styles.complianceDistro}>
+          <span>Target: {compliance.distro.name || compliance.distro.id}</span>
+        </div>
+      )}
+      
+      {/* Summary Stats */}
+      {summary && (
+        <div className={styles.complianceSummary}>
+          {/* Score Gauge */}
+          <div className={styles.complianceScore}>
+            <div 
+              className={styles.scoreCircle}
+              style={{ 
+                '--score': complianceScore,
+                '--score-color': complianceScore >= 80 ? '#22c55e' : complianceScore >= 60 ? '#eab308' : '#ef4444'
+              } as React.CSSProperties}
+            >
+              <span className={styles.scoreValue}>{complianceScore.toFixed(1)}%</span>
+              <span className={styles.scoreLabel}>Score</span>
+            </div>
+          </div>
+          
+          {/* Stats Grid */}
+          <div className={styles.complianceStats}>
+            <div className={`${styles.complianceStat} ${styles.pass}`}>
+              <CheckCircle size={16} />
+              <span className={styles.complianceStatValue}>{passedRules}</span>
+              <span className={styles.complianceStatLabel}>Passed</span>
+            </div>
+            <div className={`${styles.complianceStat} ${styles.fail}`}>
+              <XCircle size={16} />
+              <span className={styles.complianceStatValue}>{failedRules}</span>
+              <span className={styles.complianceStatLabel}>Failed</span>
+            </div>
+            <div className={`${styles.complianceStat} ${styles.error}`}>
+              <AlertCircle size={16} />
+              <span className={styles.complianceStatValue}>{errorRules}</span>
+              <span className={styles.complianceStatLabel}>Errors</span>
+            </div>
+            <div className={styles.complianceStat}>
+              <span className={styles.complianceStatValue}>{totalRules}</span>
+              <span className={styles.complianceStatLabel}>Total Rules</span>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Filter */}
+      {rules.length > 0 && (
+        <div className={styles.complianceFilter}>
+          <span>Filter by status:</span>
+          <select 
+            value={statusFilter} 
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className={styles.complianceSelect}
+          >
+            <option value="all">All Failed/Error ({rules.length})</option>
+            <option value="fail">Failed ({rules.filter(r => r.status === 'fail').length})</option>
+            <option value="error">Error ({rules.filter(r => r.status === 'error').length})</option>
+            <option value="unknown">Unknown ({rules.filter(r => r.status === 'unknown').length})</option>
+          </select>
+        </div>
+      )}
+      
+      {/* Rules List */}
+      <div className={styles.rulesList}>
+        {rules.length === 0 ? (
+          <div className={styles.noFailedRules}>
+            <CheckCircle size={20} />
+            ✓ All compliance rules passed!
+          </div>
+        ) : filteredRules.length === 0 ? (
+          <div className={styles.noFilterMatch}>
+            No rules match the current filter
+          </div>
+        ) : (
+          filteredRules.slice(0, 100).map((rule) => (
+            <div key={rule.id} className={styles.ruleItem}>
+              <div 
+                className={styles.ruleItemHeader}
+                onClick={() => setExpandedRule(expandedRule === rule.id ? null : rule.id)}
+              >
+                {expandedRule === rule.id ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                {getStatusIcon(rule.status)}
+                <Badge variant={getSeverityVariant(rule.severity)}>
+                  {rule.severity || 'unknown'}
+                </Badge>
+                <span className={styles.ruleTitle}>{rule.title || rule.id}</span>
+              </div>
+              
+              {expandedRule === rule.id && (
+                <div className={styles.ruleDetails}>
+                  <div className={styles.ruleId}>
+                    <strong>Rule ID:</strong>
+                    <code>{rule.id}</code>
+                  </div>
+                  
+                  {rule.messages && rule.messages.length > 0 && (
+                    <div className={styles.ruleMessages}>
+                      <strong>Details:</strong>
+                      <ul>
+                        {rule.messages.map((msg, i) => (
+                          <li key={i}>{msg}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))
+        )}
+        
+        {filteredRules.length > 100 && (
+          <div className={styles.rulesMore}>
+            Showing 100 of {filteredRules.length} failed rules
+          </div>
+        )}
+        
+        {compliance.rules_truncated && (
+          <div className={styles.rulesTruncated}>
+            Results truncated: {compliance.total_failed_rules} total failed rules
           </div>
         )}
       </div>

@@ -30,6 +30,7 @@ export interface ReportSummary {
   received_at: string
   has_errors: boolean
   vulnerability_summary?: VulnerabilitySummary
+  compliance_summary?: ComplianceSummary
 }
 
 export interface HostSummary {
@@ -39,6 +40,7 @@ export interface HostSummary {
   last_seen: string
   latest_report_id: string
   latest_vulnerability_summary?: VulnerabilitySummary
+  latest_compliance_summary?: ComplianceSummary
 }
 
 export interface ReportData {
@@ -51,6 +53,7 @@ export interface ReportData {
   security?: SecurityData
   logs?: LogsData
   vulnerabilities?: VulnerabilitiesData
+  compliance?: ComplianceData
 }
 
 export interface SystemData {
@@ -219,6 +222,59 @@ export interface Vulnerability {
   }
   published_date?: string
   last_modified?: string
+}
+
+export interface ComplianceData {
+  scanner?: string
+  oscap_available?: boolean
+  scap_content_available?: boolean
+  scan_completed?: boolean
+  oscap_version?: string
+  content_file?: string
+  error?: string
+  distro?: {
+    id?: string
+    original_id?: string
+    version?: string
+    major_version?: string
+    name?: string
+    like?: string
+  }
+  profile_info?: {
+    name?: string
+    id?: string
+  }
+  available_profiles?: string[]
+  summary?: ComplianceSummary
+  rules?: ComplianceRule[]
+  scan_time?: {
+    start?: string
+    end?: string
+  }
+  rules_truncated?: boolean
+  total_failed_rules?: number
+}
+
+export interface ComplianceSummary {
+  total_rules?: number
+  pass?: number
+  fail?: number
+  error?: number
+  unknown?: number
+  notapplicable?: number
+  notchecked?: number
+  notselected?: number
+  informational?: number
+  fixed?: number
+  score?: number
+}
+
+export interface ComplianceRule {
+  id: string
+  status: 'fail' | 'error' | 'unknown'
+  severity?: string
+  title?: string
+  messages?: string[]
 }
 
 export interface ApiResponse<T> {
