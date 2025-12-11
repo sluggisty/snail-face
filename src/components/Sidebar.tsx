@@ -1,11 +1,11 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { 
   LayoutDashboard, 
   Server, 
   FileText, 
-  Settings,
   Activity,
-  Bug
+  Bug,
+  ClipboardCheck
 } from 'lucide-react'
 import styles from './Sidebar.module.css'
 
@@ -13,12 +13,11 @@ const navItems = [
   { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/hosts', icon: Server, label: 'Hosts' },
   { path: '/vulnerabilities', icon: Bug, label: 'Vulnerabilities' },
+  { path: '/compliance', icon: ClipboardCheck, label: 'Compliance' },
   { path: '/reports', icon: FileText, label: 'Reports' },
 ]
 
-export default function Sidebar() {
-  const location = useLocation()
-  
+export default function Sidebar() {  
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>

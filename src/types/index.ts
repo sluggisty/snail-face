@@ -323,3 +323,34 @@ export interface VulnerabilitiesAggregation {
   generated_at: string
 }
 
+// Aggregated compliance types
+export interface HostComplianceResult {
+  hostname: string
+  score: number
+  pass_count: number
+  fail_count: number
+  error_count: number
+  total_rules: number
+  scan_time?: string
+  failed_rules?: ComplianceRule[]
+}
+
+export interface AggregatedPolicy {
+  profile_id: string
+  profile_name: string
+  content_file?: string
+  host_count: number
+  average_score: number
+  total_failing: number
+  total_passing: number
+  host_results: HostComplianceResult[]
+}
+
+export interface ComplianceAggregation {
+  total_hosts: number
+  hosts_with_compliance: number
+  total_policies: number
+  policies: AggregatedPolicy[]
+  generated_at: string
+}
+
