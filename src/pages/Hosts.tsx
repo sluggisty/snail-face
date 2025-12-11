@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { Server, Clock, FileText, Bug } from 'lucide-react'
-import { formatDistanceToNow, format } from 'date-fns'
+import { Server, Clock, ClipboardCheck } from 'lucide-react'
+import { formatDistanceToNow } from 'date-fns'
 import { api } from '../api/client'
 import { Table, Badge } from '../components/Table'
 import type { HostSummary } from '../types'
@@ -43,27 +43,8 @@ export default function Hosts() {
             ),
           },
           {
-            key: 'report_count',
-            header: 'Reports',
-            render: (host: HostSummary) => (
-              <div className={styles.reportCount}>
-                <FileText size={14} />
-                <span>{host.report_count}</span>
-              </div>
-            ),
-          },
-          {
-            key: 'first_seen',
-            header: 'First Seen',
-            render: (host: HostSummary) => (
-              <span className={styles.date}>
-                {format(new Date(host.first_seen), 'MMM d, yyyy')}
-              </span>
-            ),
-          },
-          {
             key: 'last_seen',
-            header: 'Last Seen',
+            header: 'Last Updated',
             render: (host: HostSummary) => (
               <div className={styles.lastSeen}>
                 <Clock size={14} />
@@ -77,7 +58,7 @@ export default function Hosts() {
             key: 'vulnerabilities',
             header: 'Vulnerabilities',
             render: (host: HostSummary) => {
-              const vuln = host.latest_vulnerability_summary
+              const vuln = host.vulnerability_summary
               if (!vuln || vuln.total_vulnerabilities === 0) {
                 return <span className={styles.noVuln}>—</span>
               }
@@ -108,6 +89,24 @@ export default function Hosts() {
             },
           },
           {
+            key: 'compliance',
+            header: 'Compliance',
+            render: (host: HostSummary) => {
+              const comp = host.compliance_summary
+              if (!comp || comp.score === undefined) {
+                return <span className={styles.noVuln}>—</span>
+              }
+              const score = comp.score
+              const variant = score >= 80 ? 'success' : score >= 60 ? 'warning' : 'error'
+              return (
+                <div className={styles.complianceScore}>
+                  <ClipboardCheck size={14} />
+                  <Badge variant={variant}>{score.toFixed(0)}%</Badge>
+                </div>
+              )
+            },
+          },
+          {
             key: 'status',
             header: 'Status',
             render: (host: HostSummary) => {
@@ -130,4 +129,3 @@ export default function Hosts() {
     </div>
   )
 }
-

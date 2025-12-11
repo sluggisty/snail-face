@@ -1,8 +1,6 @@
 import type { 
   Report, 
-  ReportsResponse, 
-  HostsResponse, 
-  HostSummary,
+  HostsResponse,
   HealthResponse,
   VulnerabilitiesAggregation,
   ComplianceAggregation
@@ -25,40 +23,23 @@ export const api = {
   // Health check
   getHealth: () => fetchApi<HealthResponse>('/health'),
   
-  // Reports
-  getReports: (params?: { limit?: number; offset?: number; hostname?: string }) => {
-    const searchParams = new URLSearchParams()
-    if (params?.limit) searchParams.set('limit', params.limit.toString())
-    if (params?.offset) searchParams.set('offset', params.offset.toString())
-    if (params?.hostname) searchParams.set('hostname', params.hostname)
-    
-    const query = searchParams.toString()
-    return fetchApi<ReportsResponse>(`/reports${query ? `?${query}` : ''}`)
-  },
-  
-  getReport: (id: string) => fetchApi<Report>(`/reports/${id}`),
-  
-  deleteReport: async (id: string) => {
-    const response = await fetch(`${API_BASE}/reports/${id}`, { method: 'DELETE' })
-    if (!response.ok) {
-      throw new Error(`Failed to delete report: ${response.status}`)
-    }
-  },
-  
   // Hosts
   getHosts: () => fetchApi<HostsResponse>('/hosts'),
   
-  getHost: (hostname: string) => fetchApi<HostSummary>(`/hosts/${hostname}`),
+  // Get full host data (returns the complete report)
+  getHost: (hostname: string) => fetchApi<Report>(`/hosts/${hostname}`),
   
-  getHostReports: (hostname: string) => 
-    fetchApi<{ hostname: string; reports: ReportsResponse['reports']; total: number }>(
-      `/hosts/${hostname}/reports`
-    ),
+  // Delete a host
+  deleteHost: async (hostname: string) => {
+    const response = await fetch(`${API_BASE}/hosts/${hostname}`, { method: 'DELETE' })
+    if (!response.ok) {
+      throw new Error(`Failed to delete host: ${response.status}`)
+    }
+  },
   
-  // Vulnerabilities
+  // Vulnerabilities aggregation
   getVulnerabilities: () => fetchApi<VulnerabilitiesAggregation>('/vulnerabilities'),
   
-  // Compliance
+  // Compliance aggregation
   getCompliance: () => fetchApi<ComplianceAggregation>('/compliance'),
 }
-

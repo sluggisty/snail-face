@@ -22,25 +22,12 @@ export interface VulnerabilitySummary {
   unknown?: number
 }
 
-export interface ReportSummary {
-  id: string
-  hostname: string
-  collection_id: string
-  timestamp: string
-  received_at: string
-  has_errors: boolean
-  vulnerability_summary?: VulnerabilitySummary
-  compliance_summary?: ComplianceSummary
-}
-
 export interface HostSummary {
   hostname: string
-  report_count: number
-  first_seen: string
   last_seen: string
-  latest_report_id: string
-  latest_vulnerability_summary?: VulnerabilitySummary
-  latest_compliance_summary?: ComplianceSummary
+  has_errors?: boolean
+  vulnerability_summary?: VulnerabilitySummary
+  compliance_summary?: ComplianceSummary
 }
 
 export interface ReportData {
@@ -280,13 +267,6 @@ export interface ComplianceRule {
 export interface ApiResponse<T> {
   data: T
   error?: string
-}
-
-export interface ReportsResponse {
-  reports: ReportSummary[]
-  total: number
-  limit: number
-  offset: number
 }
 
 export interface HostsResponse {
