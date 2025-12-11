@@ -4,13 +4,15 @@ import {
   Server, 
   FileText, 
   Settings,
-  Activity
+  Activity,
+  Bug
 } from 'lucide-react'
 import styles from './Sidebar.module.css'
 
 const navItems = [
   { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/hosts', icon: Server, label: 'Hosts' },
+  { path: '/vulnerabilities', icon: Bug, label: 'Vulnerabilities' },
   { path: '/reports', icon: FileText, label: 'Reports' },
 ]
 

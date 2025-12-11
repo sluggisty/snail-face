@@ -1,0 +1,363 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loading,
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl);
+  color: var(--color-text-muted);
+}
+
+.error {
+  color: var(--color-error);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.headerIcon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border-radius: var(--radius-lg);
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.headerInfo h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.updatedAt {
+  color: var(--color-text-muted);
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-md);
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) !important;
+}
+
+.statIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-hover);
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statTotal {
+  margin-left: auto;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.statCard.critical {
+  border-left: 3px solid #ef4444;
+}
+
+.statCard.critical .statValue {
+  color: #ef4444;
+}
+
+.statCard.high {
+  border-left: 3px solid #f97316;
+}
+
+.statCard.high .statValue {
+  color: #f97316;
+}
+
+.statCard.medium {
+  border-left: 3px solid #eab308;
+}
+
+.statCard.medium .statValue {
+  color: #eab308;
+}
+
+.statCard.low {
+  border-left: 3px solid #3b82f6;
+}
+
+.statCard.low .statValue {
+  color: #3b82f6;
+}
+
+/* Filter */
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.filterSelect {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* CVE List */
+.cveList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl) !important;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.emptyState h3 {
+  color: var(--color-success);
+  font-size: 1.25rem;
+}
+
+.emptyState svg {
+  color: var(--color-success);
+  opacity: 0.5;
+}
+
+/* CVE Card */
+.cveCard {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.cveHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cveHeader:hover {
+  background: var(--color-bg-hover);
+}
+
+.cveLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.cveId {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.cvssScore {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-hover);
+  padding: 0.125em 0.5em;
+  border-radius: var(--radius-sm);
+}
+
+.cveRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.affectedCount {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-hover);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
+.cveTitle {
+  padding: 0 var(--space-lg) var(--space-md);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* CVE Details */
+.cveDetails {
+  padding: var(--space-lg);
+  background: var(--color-bg-deep);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.cveDescription {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.cveDescription strong {
+  display: block;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.cveDescription p {
+  margin: 0;
+}
+
+.cveMetaGrid {
+  display: flex;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.cveMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cveMeta strong {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cveMeta span {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.packages,
+.affectedHosts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.packages strong,
+.affectedHosts strong {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.packageTags,
+.hostTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.packageTag,
+.hostTag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-bg-hover);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+}
+
+.hostTag {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--color-accent);
+}
+
+.cveLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  margin-top: var(--space-sm);
+}
+
+.cveLink:hover {
+  color: var(--color-accent-hover);
+}
+
