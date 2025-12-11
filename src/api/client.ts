@@ -4,7 +4,8 @@ import type {
   HostsResponse, 
   HostSummary,
   HealthResponse,
-  VulnerabilitiesAggregation
+  VulnerabilitiesAggregation,
+  ComplianceAggregation
 } from '../types'
 
 const API_BASE = '/api/v1'
@@ -56,5 +57,8 @@ export const api = {
   
   // Vulnerabilities
   getVulnerabilities: () => fetchApi<VulnerabilitiesAggregation>('/vulnerabilities'),
+  
+  // Compliance
+  getCompliance: () => fetchApi<ComplianceAggregation>('/compliance'),
 }
 
