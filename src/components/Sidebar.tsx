@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom'
 import { 
   LayoutDashboard, 
   Server, 
-  FileText, 
   Activity,
   Bug,
   ClipboardCheck
@@ -14,7 +13,6 @@ const navItems = [
   { path: '/hosts', icon: Server, label: 'Hosts' },
   { path: '/vulnerabilities', icon: Bug, label: 'Vulnerabilities' },
   { path: '/compliance', icon: ClipboardCheck, label: 'Compliance' },
-  { path: '/reports', icon: FileText, label: 'Reports' },
 ]
 
 export default function Sidebar() {  

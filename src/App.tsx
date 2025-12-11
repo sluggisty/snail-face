@@ -5,8 +5,6 @@ import Hosts from './pages/Hosts'
 import HostDetail from './pages/HostDetail'
 import Vulnerabilities from './pages/Vulnerabilities'
 import Compliance from './pages/Compliance'
-import Reports from './pages/Reports'
-import ReportDetail from './pages/ReportDetail'
 
 function App() {
   return (
@@ -17,12 +15,9 @@ function App() {
         <Route path="hosts/:hostname" element={<HostDetail />} />
         <Route path="vulnerabilities" element={<Vulnerabilities />} />
         <Route path="compliance" element={<Compliance />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="reports/:id" element={<ReportDetail />} />
       </Route>
     </Routes>
   )
 }
 
 export default App
-

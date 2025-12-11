@@ -103,3 +103,10 @@
   color: #3b82f6;
 }
 
+.complianceScore {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
