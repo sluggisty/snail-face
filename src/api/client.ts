@@ -3,7 +3,8 @@ import type {
   ReportsResponse, 
   HostsResponse, 
   HostSummary,
-  HealthResponse 
+  HealthResponse,
+  VulnerabilitiesAggregation
 } from '../types'
 
 const API_BASE = '/api/v1'
@@ -52,5 +53,8 @@ export const api = {
     fetchApi<{ hostname: string; reports: ReportsResponse['reports']; total: number }>(
       `/hosts/${hostname}/reports`
     ),
+  
+  // Vulnerabilities
+  getVulnerabilities: () => fetchApi<VulnerabilitiesAggregation>('/vulnerabilities'),
 }
 
