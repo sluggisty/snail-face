@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
 import { 
   Bug, Server, ExternalLink, ChevronDown, ChevronRight, 
   AlertTriangle, Shield, Package
@@ -238,11 +239,44 @@ function CVECard({ cve, expanded, onToggle, getSeverityVariant }: CVECardProps) 
           )}
           
           <div className={styles.affectedHosts}>
-            <strong><Server size={14} /> Affected Hosts:</strong>
+            <div className={styles.affectedHostsHeader}>
+              <strong><Server size={14} /> Affected Hosts ({cve.affected_count}):</strong>
+              <Link 
+                to={`/vulnerabilities/${cve.cve_id}`}
+                className={styles.viewAllLink}
+              >
+                View all hosts →
+              </Link>
+            </div>
             <div className={styles.hostTags}>
-              {cve.affected_hosts.map(host => (
-                <span key={host} className={styles.hostTag}>{host}</span>
-              ))}
+              {(() => {
+                // Show only 3-4 most recent hosts to keep it to one line
+                const maxHosts = 3
+                const sortedHosts = [...cve.affected_hosts].sort((a, b) => {
+                  if (!a.last_seen || !b.last_seen) return 0
+                  return new Date(b.last_seen).getTime() - new Date(a.last_seen).getTime()
+                })
+                const visibleHosts = sortedHosts.slice(0, maxHosts)
+                const remainingCount = sortedHosts.length - maxHosts
+                
+                return (
+                  <>
+                    {visibleHosts.map(host => (
+                      <span key={host.hostname} className={styles.hostTag}>
+                        {host.hostname}
+                      </span>
+                    ))}
+                    {remainingCount > 0 && (
+                      <Link 
+                        to={`/vulnerabilities/${cve.cve_id}`}
+                        className={styles.moreHostsLink}
+                      >
+                        +{remainingCount} more
+                      </Link>
+                    )}
+                  </>
+                )
+              })()}
             </div>
           </div>
           

@@ -280,6 +280,11 @@ export interface HealthResponse {
 }
 
 // Aggregated vulnerability types
+export interface AffectedHost {
+  hostname: string
+  last_seen: string
+}
+
 export interface AggregatedCVE {
   cve_id: string
   severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN'
@@ -288,7 +293,7 @@ export interface AggregatedCVE {
   primary_url?: string
   fixed_version?: string
   published_date?: string
-  affected_hosts: string[]
+  affected_hosts: AffectedHost[]
   affected_count: number
   package_names?: string[]
   cvss_v3_score?: number

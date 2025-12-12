@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard'
 import Hosts from './pages/Hosts'
 import HostDetail from './pages/HostDetail'
 import Vulnerabilities from './pages/Vulnerabilities'
+import CVEDetail from './pages/CVEDetail'
 import Compliance from './pages/Compliance'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="hosts" element={<Hosts />} />
         <Route path="hosts/:hostname" element={<HostDetail />} />
         <Route path="vulnerabilities" element={<Vulnerabilities />} />
+        <Route path="vulnerabilities/:cveId" element={<CVEDetail />} />
         <Route path="compliance" element={<Compliance />} />
       </Route>
     </Routes>

@@ -315,6 +315,13 @@
   gap: var(--space-sm);
 }
 
+.affectedHostsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
 .packages strong,
 .affectedHosts strong {
   display: flex;
@@ -324,6 +331,22 @@
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.viewAllLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.viewAllLink:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .packageTags,
@@ -346,6 +369,23 @@
 .hostTag {
   background: rgba(139, 92, 246, 0.15);
   color: var(--color-accent);
+}
+
+.moreHostsLink {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-bg-hover);
+  border-radius: var(--radius-sm);
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: background 0.2s ease;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.moreHostsLink:hover {
+  background: rgba(139, 92, 246, 0.15);
+  text-decoration: underline;
 }
 
 .cveLink {
